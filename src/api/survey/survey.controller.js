@@ -1,6 +1,6 @@
 'use strict';
 
 // Record the submission of a survey
-exports.submit = function(req, res) {
+export function submit(req, res) {
   res.send('Hello World!');
 };

@@ -35,6 +35,7 @@ var node_env = process.env.NODE_ENV == "production" ? production : development;
 
 // Export the config object based on the NODE_ENV
 // ==============================================
-module.exports = _.merge(
+export default  _.merge(
   all,
-  node_env || {});
+  node_env || {}
+);
