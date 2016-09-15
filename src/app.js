@@ -7,15 +7,14 @@
 import express from 'express';
 import config from './config/environment';
 import http from 'http';
+import routes from './routes'
+
 
 // Setup server
 var app = express();
 var server = http.createServer(app);
-console.log('Working 1');
-require('./config/express').default(app);
-console.log('Working 2');
-require('./routes').default(app);
-console.log('Working 3');
+express(app);
+routes(app);
 
 
 // Connect to a database

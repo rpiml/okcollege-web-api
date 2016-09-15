@@ -1,7 +1,9 @@
 'use strict';
 
-var path = require('path');
-var _ = require('lodash');
+import path from 'path';
+import _ from 'lodash';
+import production from './production.js';
+import development from './development.js';
 
 function requiredProcessEnv(name) {
   if (!process.env[name]) {
@@ -24,13 +26,15 @@ var all = {
   // Server IP
   ip: process.env.IP || '0.0.0.0',
 
-  // Server base e.g. http://malik.ml.rpi.edu:9000
+  // Server base e.g. http://malik.ml.rpi.edu:3001
   serverURL: process.env.DOMAIN
 
 };
+
+var node_env = process.env.NODE_ENV == "production" ? production : development;
 
 // Export the config object based on the NODE_ENV
 // ==============================================
 module.exports = _.merge(
   all,
-  require('./' + process.env.NODE_ENV + '.js') || {});
+  node_env || {});

@@ -1,7 +1,7 @@
 'use strict';
 
-var express = require('express');
-var controller = require('./survey.controller');
+import controller from './survey.controller'
+import express from 'express'
 
 var router = express.Router();
 
