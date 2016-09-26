@@ -45,6 +45,8 @@ describe("database api", () => {
   it('should allow viewing of all surveys', () => {
     return db.getSurveyResponses().then(surveys => {
       expect(surveys).to.not.be.empty;
+      expect(surveys[0]).to.have.property('id');
+      expect(surveys[0]).to.have.property('content');
     });
   });
 });
