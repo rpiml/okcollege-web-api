@@ -1,10 +1,26 @@
 
 import db from './';
+import should from 'should';
+import {expect} from 'chai';
+
+db.config.database = "okcollege_testing";
+
+describe("Clean up database", () => {
+  it('should connect', db.connect);
+  it('should wipe the database', db.wipe);
+  it('should disconnect', db.disconnect);
+});
 
 describe("database api", () => {
-  it('should connect to the postgres database', () => {
-    return db.connect();
+
+  it('should not allow operations before connection', () => {
+    return db.addSurveyResponse({
+      'id': 'abcd',
+      'content': '{"a": "c"}'
+    }).should.be.rejected;
   });
+
+  it('should connect to the postgres database', db.connect);
 
   it('should allow surveys to be added', () => {
     return db.addSurveyResponse({
@@ -28,7 +44,6 @@ describe("database api", () => {
 
   it('should allow viewing of all surveys', () => {
     return db.getSurveyResponses().then(surveys => {
-      console.log(surveys);
       expect(surveys).to.not.be.empty;
     });
   });
