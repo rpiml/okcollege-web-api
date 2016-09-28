@@ -9,7 +9,7 @@ import config from './config/environment';
 import http from 'http';
 import routes from './routes'
 import expressConfig from './config/express'
-import db, { connect, disconnect, initTables } from './db';
+import db from './db';
 
 // Setup server
 var app = express();
@@ -18,9 +18,6 @@ express(app);
 expressConfig(app);
 routes(app);
 
-// Connect to a database
-// db.connect();
-
 // Start the server
 function startServer() {
   server.listen(config.port, config.ip, function() {
@@ -28,7 +25,10 @@ function startServer() {
   });
 }
 
-startServer()
+// Connect to a database
+db.connect().then(startServer);
+
+// startServer()
 
 // Expose app
 export default app;

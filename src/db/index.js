@@ -2,17 +2,18 @@
  * Internal module for database queries
  **/
 
- import pg from 'pg';
+import pg from 'pg';
+import configEnv from '../config/environment';
 
- var config = {
-   user: 'postgres', //env var: PGUSER
-   database: 'okcollege', //env var: PGDATABASE
-   password: '', //env var: PGPASSWORD
-   host: 'localhost', // Server hosting the postgres database
-   port: 5432, //env var: PGPORT
-   max: 4, // max number of clients in the pool
-   idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
- };
+var config = {
+  user: 'postgres', //env var: PGUSER
+  database: configEnv.database.name, //env var: PGDATABASE
+  password: '', //env var: PGPASSWORD
+  host: 'localhost', // Server hosting the postgres database
+  port: 5432, //env var: PGPORT
+  max: 4, // max number of clients in the pool
+  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+};
 
 let pool = null;
 
@@ -110,7 +111,7 @@ function addSurveyResponse(response){
   if (!response || !response.id || !response.content) return Promise.reject("Malformatted response");
   return queryClient(`INSERT INTO survey_responses (id, content) VALUES ($1,$2)`, [
     response.id,
-    response.content
+    JSON.stringify(response.content)
   ]);
 }
 
@@ -119,7 +120,9 @@ function addSurveyResponse(response){
  * @return {Promise}
  */
 function getSurveyResponses(){
-  return queryClient(`SELECT * FROM survey_responses`).then(results => results.rows);
+  return queryClient(`SELECT * FROM survey_responses`).then(results => results.rows.map(row=>{
+    return {'id':row.id, 'content':JSON.parse(row.content)}
+  }));
 }
 
 /**

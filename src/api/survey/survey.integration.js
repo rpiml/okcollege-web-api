@@ -2,15 +2,22 @@ import app from '../..';
 import should from 'should';
 import {expect} from 'chai';
 import request from 'supertest';
+import db from '../../db';
+
 
 describe('Survey API', () => {
+
   describe('Should enter a survey into the relevant databases on upload', () => {
 
+    before(db.connect);
+    before(db.wipe);
+    before(db.disconnect);
+    before(db.connect);
+
     var survey = {
-      "years-in-college":2,
       "sports": ["football", "curling"],
-      "clubs": ["RCOS"]
     };
+
     var surveyResponse;
     before(function(done) {
       request(app)
@@ -23,17 +30,18 @@ describe('Survey API', () => {
                   return done(err);
               }
               surveyResponse = res.body;
-              console.log(surveyResponse);
               done();
           });
     });
 
-    it('should accept a network request for a survey', () => {
-      expect(1).to.equal(1);
-    });
 
-    it.skip('should have placed the survey in the relevant database tables', () => {
-      expect(surveyResponse.name).to.equal('survey');
+    it('should have placed the survey in the relevant database tables', () => {
+      return db.getSurveyResponses().then(surveys => {
+        expect(surveys).to.not.be.empty;
+        expect(surveys[0].id).to.equal('sports');
+        expect(surveys[0].content[0]).to.equal(survey['sports'][0]);
+      });
+
     });
   });
 });
