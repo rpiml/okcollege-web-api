@@ -27,7 +27,11 @@ var all = {
   ip: process.env.IP || '0.0.0.0',
 
   // Server base e.g. http://malik.ml.rpi.edu:3001
-  serverURL: process.env.DOMAIN
+  serverURL: process.env.DOMAIN,
+
+  // Grab environment variable for postgresql host
+  PGHOST : process.env.PG_HOST
+
 
 };
 

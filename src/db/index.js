@@ -9,7 +9,7 @@ var config = {
   user: 'postgres', //env var: PGUSER
   database: configEnv.database.name, //env var: PGDATABASE
   password: '', //env var: PGPASSWORD
-  host: 'postgres', // Server hosting the postgres database
+  host: configEnv.database.PGHOST, // Server hosting the postgres database
   port: 5432, //env var: PGPORT
   max: 4, // max number of clients in the pool
   idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
@@ -60,7 +60,7 @@ function initDatabase(){
   return new Promise((resolve, reject) => {
     console.log(`Creating new ${config.database} database.`);
     var postgresConfig = Object.assign({}, config);
-    postgresConfig.database = configEnv.database.name; //configEnv.database.name
+    postgresConfig.database = 'postgres'; //configEnv.database.name
     pool = new pg.Pool(postgresConfig);
     pool.connect((err, client_, done) => {
       if (err) return reject(err);
