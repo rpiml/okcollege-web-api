@@ -3,8 +3,6 @@ import db from './';
 import should from 'should';
 import {expect} from 'chai';
 
-db.config.database = "okcollege_testing";
-
 describe("Clean up database", () => {
   it('should connect', db.connect);
   it('should wipe the database', db.wipe);

@@ -5,6 +5,6 @@ import express from 'express'
 
 var router = express.Router();
 
-router.get('/', controller.submit);
+router.post('/', controller.submit);
 
 export default router;

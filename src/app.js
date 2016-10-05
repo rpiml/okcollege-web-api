@@ -8,16 +8,15 @@ import express from 'express';
 import config from './config/environment';
 import http from 'http';
 import routes from './routes'
-
+import expressConfig from './config/express'
+import db from './db';
 
 // Setup server
 var app = express();
 var server = http.createServer(app);
 express(app);
+expressConfig(app);
 routes(app);
-
-
-// Connect to a database
 
 // Start the server
 function startServer() {
@@ -26,7 +25,10 @@ function startServer() {
   });
 }
 
-startServer()
+// Connect to a database
+db.connect().then(startServer);
+
+// startServer()
 
 // Expose app
 export default app;
