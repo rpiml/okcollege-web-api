@@ -5,16 +5,14 @@ import db from '../../db';
 // Record the submission of a survey
 export function submit(req, res) {
 
-  // TODO: verify the data in req.body to be formatted correctly
-  Object.keys(req.body).forEach(function (key) {
-    let obj = req.body[key];
-    db.addSurveyResponse({
-      'id': key,
-      'content': req.body[key]
+  let id = req.body['userid'];
+  let content = req.body['survey'];
+  if (id && content){
+    db.addSurveyResponse({ id, content }).then(() => {
+      res.json({status: 'success'});
     });
-  });
-
-  var statusCode = 201;
-  res.status(statusCode).json(req.body);
+  }else{
+    res.status(400).json({status:'error', description: 'bad request', body: req.body});
+  }
 
 };
