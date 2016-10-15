@@ -67,7 +67,7 @@ function initDatabase(){
       client = client_;
       client.query(`CREATE DATABASE ${config.database}`, (err, results) => {
         if (err) return reject(err);
-        disconnect().then(resolve);
+        disconnect().then(done).then(resolve);
       });
     });
   });
