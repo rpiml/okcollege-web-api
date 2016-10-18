@@ -12,7 +12,7 @@ var config = {
   host: configEnv.database.PGHOST, // Server hosting the postgres database
   port: 5432, //env var: PGPORT
   max: 4, // max number of clients in the pool
-  idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+  idleTimeoutMillis: 500, // how long a client is allowed to remain idle before being closed
 };
 
 let pool = null;
@@ -91,7 +91,7 @@ function connect() {
       if (err) return reject(err);
       connected = true;
       client = client_;
-      initTables().then(resolve).catch(reject).then(done);
+      initTables().then(resolve).catch(reject);
     });
   });
 }
