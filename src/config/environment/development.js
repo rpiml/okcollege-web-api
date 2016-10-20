@@ -6,7 +6,8 @@ export default {
 
   serverURL: process.env.DOMAIN || 'http://127.0.0.1:3001',
   database: {
-    name: 'okcollege_dev'
+    name: 'okcollege_dev',
+    host: process.env.PGHOST || 'localhost'
   },
   seedDB: true
 };

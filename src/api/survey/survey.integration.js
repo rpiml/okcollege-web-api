@@ -3,7 +3,7 @@ import should from 'should';
 import {expect} from 'chai';
 import request from 'supertest';
 import Survey from './survey.model';
-import { default as seedSurvey, clear } from './survey.seed';
+import { default as seedSurvey, clear as clearSurveys } from './survey.seed';
 
 const surveyExample = {
   "firstPage": "start",
@@ -45,6 +45,8 @@ describe('Survey API', () => {
       "userid": "USERID1230948",
       "survey": surveyExample,
     };
+
+    before( clearSurveys );
 
     let surveyResponse;
     before(function(done) {
