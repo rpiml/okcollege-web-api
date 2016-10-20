@@ -7,7 +7,7 @@
     "build": "babel src -d lib",
     "start": "nodemon --ignore lib --exec npm run build -- ./lib/index.js",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register 'src/**/*.integration.js'",
-    "test-watch": "nodemon --exec ./node_modules/.bin/mocha --compilers js:babel-core/register 'src/**/*.integration.js'"
+    "test-watch": "nodemon --exec npm run test"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,16 @@
   },
   "homepage": "https://github.com/rpiml/okcollege-web-api#readme",
   "dependencies": {
+    "babel-plugin-transform-async-to-generator": "^6.16.0",
+    "babel-polyfill": "^6.16.0",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "lodash": "^4.15.0",
     "morgan": "^1.7.0",
     "path": "^0.12.7",
     "pg": "^6.1.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.24.4",
     "supertest": "^2.0.0"
   },
   "devDependencies": {
