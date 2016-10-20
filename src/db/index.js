@@ -150,4 +150,14 @@ function disconnect(){
   });
 }
 
-export default { connect, disconnect, addSurveyResponse, getSurveyResponses, wipe, initTables, config };
+/**
+ * Returns true if database is connected
+ * @return {Boolean} connected database connected
+ */
+function isConnected(){
+  return connected;
+}
+
+let deprecated = { addSurveyResponse, getSurveyResponses };
+
+export default { connect, disconnect, isConnected, query: queryClient, deprecated, wipe, initTables, config };

@@ -53,7 +53,7 @@ describe('Survey API', () => {
 
 
     it('should have placed the survey in the relevant database tables', () => {
-      return db.getSurveyResponses().then(surveys => {
+      return db.deprecated.getSurveyResponses().then(surveys => {
         expect(surveys).to.not.be.empty;
         expect(surveys[0].id).to.equal('USERID1230948');
         expect(surveys[0].content).to.be.ok;
