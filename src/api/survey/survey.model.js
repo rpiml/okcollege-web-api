@@ -12,7 +12,7 @@ let Survey = db.define('survey_response', {
     type: DataTypes.JSON,
     field: 'content'
   }
-}, { freezeTableName: true });
+});
 
 // TODO
 // Survey.belongsTo(User);

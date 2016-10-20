@@ -8,4 +8,5 @@ export default {
   database: {
     name: 'okcollege_dev'
   },
+  seedDB: true
 };

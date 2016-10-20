@@ -16,4 +16,6 @@ export default {
     name: 'okcollege'
   },
 
+  seedDB: false
+
 };
