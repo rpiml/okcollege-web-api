@@ -1,3 +1,4 @@
+//@flow
 /**
  * Internal module for database queries
  **/
@@ -21,16 +22,21 @@ let client = null;
 
 let connected = false;
 
+function getClient(): Object{
+  if (!client) throw new Error("DB Client has not yet been established");
+  return client;
+}
+
 /**
  * Query the client database with a SQL query.
  * @param  {String} query String to query
  * @param  {[String]} args Query arguments, interpolated with $1,$2... OPTIONAL
  * @return {Promise}
  */
-function queryClient(...args){
+function queryClient(queryString: string, values: Array<any> = []): Promise<{rows: any}>{
   return new Promise((resolve, reject) => {
     if (!connected) return reject("Client not connected");
-    client.query(...args, (err, results) => {
+    getClient().query(queryString, values, (err, results) => {
       if (err) return reject(err);
       resolve(results);
     });
@@ -45,7 +51,7 @@ function initTables(){
   return queryClient(`CREATE TABLE survey_responses (
       id varchar(80),
       content varchar(3000)
-    )`).catch((err) => {
+    )`).catch(err => {
       if (err.code == '42P07') return; // Ignore "Record already exists"
       throw err;
     });
@@ -107,7 +113,7 @@ function connect() {
  * }
  * @return {Promise}
  */
-function addSurveyResponse(response){
+function addSurveyResponse(response: {id: string, content: string}){
   if (!response || !response.id || !response.content) return Promise.reject("Malformatted response");
   return queryClient(`INSERT INTO survey_responses (id, content) VALUES ($1,$2)`, [
     response.id,
@@ -143,7 +149,7 @@ function wipe(){
 function disconnect(){
   return new Promise((resolve, reject) => {
     connected = false;
-    client.end((err) => {
+    getClient().end((err) => {
       if (err) return reject(err);
       resolve();
     });
