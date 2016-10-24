@@ -1,13 +1,9 @@
 import Survey from './survey.model';
 
 
-export default function(){
-  // TODO only do this during seeding
-  return Survey.sync({force: true}).then( () => {
-
-    // TODO create seed surveys
-
-  });
+export default async function(){
+  await Survey.sync({force: true});
+  // TODO populate with example surveys
 }
 
 export async function clear(){
