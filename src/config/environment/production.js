@@ -13,7 +13,10 @@ export default {
           process.env.PORT ||
           9000,
   database: {
-    name: 'okcollege'
+    name: 'okcollege',
+    host: process.env.PGHOST || 'localhost'
   },
+
+  seedDB: false
 
 };

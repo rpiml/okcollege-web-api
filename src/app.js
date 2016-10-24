@@ -10,6 +10,7 @@ import http from 'http';
 import routes from './routes'
 import expressConfig from './config/express'
 import db from './db';
+import seed from './config/seed';
 
 // Setup server
 var app = express();
@@ -25,10 +26,14 @@ function startServer() {
   });
 }
 
-// Connect to a database
-db.connect().then(startServer);
+async function start(){
+  if (config.seedDB){
+    await seed();
+  }
+  startServer();
+}
 
-// startServer()
+start();
 
 // Expose app
 export default app;
