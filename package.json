@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "babel src -d lib",
-    "start": "nodemon --ignore lib --exec npm run build -- ./lib/index.js",
+    "start": "nodemon --ignore lib --exec \"npm run build && npm run serve\"",
+    "serve": "node ./lib/index.js",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register 'src/**/*.integration.js'",
     "test-watch": "nodemon --exec npm run test"
   },

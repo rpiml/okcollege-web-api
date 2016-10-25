@@ -27,10 +27,13 @@ function startServer() {
 }
 
 async function start(){
+  // FIXME for some reason start server can't be moved after any awaits or
+  // callbacks, this may be an issue with the generation, for now we'll
+  // put it on top
+  startServer();
   if (config.seedDB){
     await seed();
   }
-  startServer();
 }
 
 start();
