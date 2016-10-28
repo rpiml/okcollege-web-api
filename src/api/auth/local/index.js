@@ -1,3 +1,5 @@
+'use strict';
+
 import express from 'express';
 import passport from 'passport';
 import User from "../../user/user.model";
@@ -7,7 +9,9 @@ let router = express.Router();
 
 router.get('/', (req, res) => {
   passport.authenticate('local', (err, user, info) => {
-    if (err)
+    if (err){
+        return res.status(401).json(er);
+    }
   });
 });
 
