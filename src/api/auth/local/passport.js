@@ -8,14 +8,13 @@ export function localSetup() {
     usernameField: 'email',
     passwordField: 'password',
     session: false
-  },(email, password, cb) => {
+  },(email, password, done) => {
     User.findOne({
       where: { email: email.toLowerCase() }
     }).then(user => {
-      if (err) return cb(err);
-      if (!user) return cb(null, err);
+      if (!user) return cb(null, {"message":"user not found"});
 
-      user.authenticate(password, function(authError, authenticated) {
+      user.authenticate(password).then((authError, authenticated)=>{
         if (authError) {
           return done(authError);
         }
@@ -25,7 +24,6 @@ export function localSetup() {
           return done(null, user);
         }
       });
-
     });
   }));
 

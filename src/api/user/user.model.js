@@ -44,7 +44,7 @@ export default db.define('user', {
 
     makeSalt: function(){
       return new Promise(resolve => {
-        crypto.randomBytes(16, (err, salt) => {
+        crypto.randomBytes(16, (_, salt) => {
           resolve(salt.toString('base64'));
         });
       });
@@ -70,9 +70,9 @@ export default db.define('user', {
     },
 
     authenticate: function(password){
-      return new Promise((resolve, reject) => {
-
-      });
+      return this.encryptPassword(password).then(epw => {
+        return epw == this.password;
+      })
     }
   }
 });

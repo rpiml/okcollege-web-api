@@ -8,6 +8,7 @@ import User from "../../user/user.model";
 let router = express.Router();
 
 router.post('/', (req, res, next) => {
+  console.log(req.body);
   passport.authenticate('local', (err, user, info) => {
     if (err){
       return res.status(401).json(err);
