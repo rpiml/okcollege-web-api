@@ -1,0 +1,11 @@
+sudo: required
+
+language: node
+
+services:
+  - docker
+
+before_install:
+- docker run --net host postgres
+- docker run --net host node:6.5.0 /bin/bash -c "cd /usr/src/app && npm install && npm run build && npm test"
+- docker ps -a
