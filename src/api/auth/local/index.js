@@ -10,7 +10,9 @@ let router = express.Router();
 router.get('/', (req, res) => {
   passport.authenticate('local', (err, user, info) => {
     if (err){
-        return res.status(401).json(er);
+      return res.status(401).json(err);
+    }else{
+      
     }
   });
 });

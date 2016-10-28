@@ -1,3 +1,4 @@
+//@flow
 import db from '../../db';
 import {DataTypes} from 'sequelize';
 import crypto from 'crypto';
@@ -33,9 +34,17 @@ export default db.define('user', {
   },
 }, {
   instanceMethods: {
+    setPassword: async function(password){
+      if (!this.salt){
+        this.setDataValue('salt', await this.makeSalt());
+      }
+      let password_hash = await this.encryptPassword(password);
+      this.setDataValue('password_hash', password_hash);
+    },
+
     makeSalt: function(){
       return new Promise(resolve => {
-        crypto.randomBytes(byteSize, (err, salt) => {
+        crypto.randomBytes(16, (err, salt) => {
           resolve(salt.toString('base64'));
         });
       });

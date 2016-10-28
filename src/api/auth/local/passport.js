@@ -24,7 +24,7 @@ export function localSetup() {
           return done(null, user);
         }
       });
-      
+
     });
   }));
 
