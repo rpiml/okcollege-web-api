@@ -9,5 +9,6 @@ export default new Sequelize(config.database.name, 'postgres', '', {
     min: 0,
     idle: 10000
   },
+  logging: false,
   define: {freezeTableName: true}
 });

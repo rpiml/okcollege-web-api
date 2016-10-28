@@ -26,7 +26,7 @@ export default db.define('user', {
   },
   password_hash: {
     type: DataTypes.STRING,
-    field: 'password'
+    field: 'password_hash'
   },
   role: {
     type: DataTypes.STRING,

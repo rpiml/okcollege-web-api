@@ -7,14 +7,15 @@ import User from "../../user/user.model";
 
 let router = express.Router();
 
-router.get('/', (req, res) => {
+router.post('/', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if (err){
       return res.status(401).json(err);
     }else{
-      
+      console.log(user);
+      res.send("It worked!?!");
     }
-  });
+  })(req, res, next);
 });
 
 export default router;

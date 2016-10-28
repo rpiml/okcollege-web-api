@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../../../';
 import User from './../../user/user.model';
 
-describe('Authentication API Tests', () => {
+describe.only('Authentication API Tests', () => {
 
   // create a test user
   before(async () => {
@@ -13,7 +13,14 @@ describe('Authentication API Tests', () => {
     await user.save();
   });
 
-  it('should allow a user to get a token', () => {
-
+  it('should allow a user to get a token', done => {
+    request(app)
+      .post('/api/auth/local')
+      .field('email', 'test@example.com')
+      .field('password', 'testpassword')
+      .end((err, res) => {
+        console.log("aye", res.statusCode, res.text);
+        done();
+      });
   });
 });

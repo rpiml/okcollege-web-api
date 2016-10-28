@@ -6,7 +6,8 @@ export function localSetup() {
 
   passport.use(new Strategy({
     usernameField: 'email',
-    passwordField: 'password'
+    passwordField: 'password',
+    session: false
   },(email, password, cb) => {
     User.findOne({
       where: { email: email.toLowerCase() }
