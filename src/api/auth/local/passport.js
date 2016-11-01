@@ -8,23 +8,15 @@ export function localSetup() {
     usernameField: 'email',
     passwordField: 'password',
     session: false
-  },(email, password, done) => {
-    User.findOne({
-      where: { email: email.toLowerCase() }
-    }).then(user => {
-      if (!user) return cb(null, {"message":"user not found"});
-
-      user.authenticate(password).then((authError, authenticated)=>{
-        if (authError) {
-          return done(authError);
-        }
-        if (!authenticated) {
-          return done(null, false, { message: 'This password is not correct.' });
-        } else {
-          return done(null, user);
-        }
-      });
-    });
+  }, async (email, password, done) => {
+    let user = await User.findOne({where: { email: email.toLowerCase() }});
+    if (!user) return done(null, {"message":"user not found"});
+    let isAuthenticated = await user.authenticate(password);
+    if (!isAuthenticated) {
+      return done(null, false, { message: 'This password is not correct.' });
+    } else {
+      return done(null, user);
+    }
   }));
 
 }

@@ -34,6 +34,17 @@ export default db.define('user', {
   },
 }, {
   instanceMethods: {
+
+    // Public profile information
+    profile: function(){
+      return {
+        'uuid': this.uuid,
+        'firstName': this.firstName,
+        'lastName': this.lastName,
+        'role': this.role,
+      };
+    },
+
     setPassword: async function(password){
       if (!this.salt){
         this.setDataValue('salt', await this.makeSalt());
@@ -69,10 +80,9 @@ export default db.define('user', {
       });
     },
 
-    authenticate: function(password){
-      return this.encryptPassword(password).then(epw => {
-        return epw == this.password;
-      })
+    authenticate: async function(password){
+      let epw = await this.encryptPassword(password);
+      return epw == this.password_hash;
     }
   }
 });

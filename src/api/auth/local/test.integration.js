@@ -13,6 +13,9 @@ describe.only('Authentication API Tests', () => {
       email: 'test@example.com'
     });
     await user.setPassword("testpassword");
+    await user.set("firstName", "Malik");
+    await user.set("lastName", "Magdon-Ismail");
+    await user.set("role", "Boss");
     await user.save();
   });
 
@@ -30,6 +33,10 @@ describe.only('Authentication API Tests', () => {
         password: "testpassword"
       })
       .end((err, res) => {
+        expect(res.body.token).to.exist;
+        expect(res.body.profile.firstName).to.equal('Malik');
+        expect(res.body.profile.lastName).to.equal('Magdon-Ismail');
+        expect(res.body.profile.role).to.equal('Boss');
         done();
       });
   });
