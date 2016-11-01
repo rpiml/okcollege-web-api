@@ -1,0 +1,15 @@
+sudo: required
+
+language: node_js
+node_js:
+  - "6.5"
+
+addons:
+  postgresql: "9.4"
+
+before_script:
+  - psql -c 'create database okcollege_dev;' -U postgres
+  - wget https://raw.githubusercontent.com/rpiml/okcollege-dev/master/assets/form.json -P ./assets
+
+script:
+- npm test
