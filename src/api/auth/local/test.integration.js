@@ -5,7 +5,9 @@ import User from './../../user/user.model';
 
 describe.only('Authentication API Tests', () => {
 
-  before(() => User.sync({force: true}));
+  before(async () => {
+    return await User.sync({force: true})
+  });
 
   // create a test user
   before(async () => {
