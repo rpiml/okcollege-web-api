@@ -22,11 +22,14 @@ export default db.define('user', {
   },
   email: {
     type: DataTypes.STRING,
-    field: 'email'
+    field: 'email',
+    validate: {
+      isEmail: true,            // checks for email format (foo@bar.com)
+    }
   },
-  password_hash: {
+  password: {
     type: DataTypes.STRING,
-    field: 'password_hash'
+    field: 'password'
   },
   role: {
     type: DataTypes.STRING,
@@ -50,7 +53,7 @@ export default db.define('user', {
         this.setDataValue('salt', await this.makeSalt());
       }
       let password_hash = await this.encryptPassword(password);
-      this.setDataValue('password_hash', password_hash);
+      this.setDataValue('password', password_hash);
     },
 
     makeSalt: function(){
@@ -82,7 +85,12 @@ export default db.define('user', {
 
     authenticate: async function(password){
       let epw = await this.encryptPassword(password);
-      return epw == this.password_hash;
+      return epw == this.password;
     }
+  },
+  hooks: {
+     beforeCreate: async function (user, options) {
+       await user.setPassword(user.password);
+     },
   }
 });

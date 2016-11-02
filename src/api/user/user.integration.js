@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import request from 'supertest';
 import User from './user.model';
 import { default as seedUsers, clear as clearUsers } from './user.seed';
-
+import {init, user, admin} from '../auth/local/test.integration'
 
 describe('User Model', () => {
 
@@ -14,10 +14,11 @@ describe('User Model', () => {
       let createdUser = await User.create({
         firstName: "Rick",
         lastName: "Sanchez",
-        email: "rick@example.com",
-        password_hash: "squelch_but_hashed", // TODO password entry should be via "password" and automatically hashed
-        role: "user"
+        email: "rick@morty.com",
+        role: "admin",
+        password: "squelch_squanch"
       });
+
       expect(createdUser).to.have.property('firstName', 'Rick');
       expect(createdUser).to.have.property('lastName', 'Sanchez');
 
@@ -26,10 +27,31 @@ describe('User Model', () => {
     });
 });
 
-describe('User API', () => {
+describe.skip('User API', () => {
+
+  describe('should create user', () => {
+    // before( clearUsers );
+
+    before( async () => {
+      await init()
+    });
+
+    it('should authenticate student the endpoint', async function() {
+      admin.request(app)
+          .get('/api/user')
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function(err, res) {
+              if (err) {
+                  return done(err);
+              }
+              userResponse = res.body;
+              done();
+          });
+    });
+  });
 
   describe.skip('should create user', () => {
-
     before( clearUsers );
 
     let userResponse;

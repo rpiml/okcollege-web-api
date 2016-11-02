@@ -2,44 +2,79 @@ import request from 'supertest';
 import {expect} from 'chai';
 import app from '../../../';
 import User from './../../user/user.model';
+import superagent from 'superagent';
 
-describe.only('Authentication API Tests', () => {
+let userAccount = {
+  "firstName": "Rick",
+  "lastName": "Sanchez",
+  "role": "user",
+  "email": "Rick@Sanchez.com",
+  "password": "wubalubadubdub",
+};
+let adminAccount = {
+  "firstName": "Malik",
+  "lastName": "Magdon-Ismail",
+  "role": "admin",
+  "email": "machine@learning.com",
+  "password": "have faith in probability",
+};
 
-  before(async () => {
-    return await User.sync({force: true})
-  });
+let userAuth = {}, adminAuth = {};
 
-  // create a test user
-  before(async () => {
-    let user = await User.create({
-      email: 'test@example.com'
-    });
-    await user.setPassword("testpassword");
-    await user.set("firstName", "Malik");
-    await user.set("lastName", "Magdon-Ismail");
-    await user.set("role", "Boss");
-    await user.save();
-  });
+async function init(){
 
-  it('should have inserted a user', async () => {
-    let users = await User.findAll({});
-    expect(users.length > 0).to.be.true;
-  });
-
-  it('should allow a user to get a token', done => {
-    request(app)
-      .post('/api/auth/local')
-      .type('form')
-      .send({
-        email: "test@example.com",
-        password: "testpassword"
-      })
-      .end((err, res) => {
-        expect(res.body.token).to.exist;
-        expect(res.body.profile.firstName).to.equal('Malik');
-        expect(res.body.profile.lastName).to.equal('Magdon-Ismail');
-        expect(res.body.profile.role).to.equal('Boss');
-        done();
+  await Promise.all([createUser(userAccount), createUser(adminAccount) ]);
+  await getAuth(userAccount).then((auth) => {
+          userAuth.cookie = auth.cookie;
+          userAuth.token = auth.token;
+          return Promise.resolve();
+        });
+  await getAuth(adminAccount).then((auth) => {
+          adminAuth.cookie = auth.cookie;
+          adminAuth.token = auth.token;
+          return Promise.resolve();
       });
-  });
-});
+};
+
+async function createUser(user) {
+  let newUser = await User.create(user);
+  newUser.provider = 'local';
+  await newUser.save();
+}
+
+function wrapAuth(auth, req){
+  return req.set('Authorization', 'Bearer ' + auth.token);
+}
+
+function authRequest(auth){
+    return (app) => {
+        var req = request(app);
+        return {
+            get: (...args) => wrapAuth(auth, req.get(...args)),
+            post: (...args) => wrapAuth(auth, req.post(...args)),
+            patch: (...args) => wrapAuth(auth, req.patch(...args)),
+            delete: (...args) => wrapAuth(auth, req.delete(...args)),
+            put: (...args) => wrapAuth(auth, req.put(...args))
+        };
+    };
+}
+
+function getAuth(account){
+    return new Promise((resolve, reject) => {
+      var agent = superagent.agent();
+        agent
+        .post('http://127.0.0.1:3001/api/auth/local')
+        .type('form')
+        .send(account)
+        .end((err, res) => {
+            if (err) throw err;
+            resolve({
+                token: res.body.token,
+            });
+        });
+    })
+}
+
+export let  user = { request: authRequest(userAuth)},
+            admin = { request: authRequest(adminAuth)};
+export {init};
