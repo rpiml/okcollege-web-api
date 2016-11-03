@@ -21,19 +21,26 @@ routes(app);
 
 // Start the server
 function startServer() {
-  server.listen(config.port, config.ip, function() {
-    console.log('Express server listening on %d', config.port);
+  return new Promise((resolve) => {
+    server.listen(config.port, config.ip, function() {
+      console.log('Express server listening on %d', config.port);
+      resolve();
+    });
   });
 }
 
 async function start(){
   if (config.seedDB){
+    console.log("Seeding!");
     await seed();
   }
-  startServer();
+  await startServer();
 }
 
-start();
+let onStart = start();
 
 // Expose app
 export default app;
+export {
+  onStart, server
+};

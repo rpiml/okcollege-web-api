@@ -1,9 +1,17 @@
-var app = require("../");
-var auth = require("./auth/local/test.integration");
+//@flow
+import { server, onStart, default as app } from '../';
+import {init as authInit} from "./auth/local/test.integration";
+import db from '../db';
 
+before(()=>{
+  console.log("no legs billy bob");
+});
 
-before( async ()=>{
+before(() => onStart);
+
+before( async () => {
   // Run the auth init
-  // await auth.init();
-  return
+  console.log("boy did that server start");
+  await authInit();
+  console.log("done with auth");
 });

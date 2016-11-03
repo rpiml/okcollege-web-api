@@ -4,9 +4,9 @@ import {expect} from 'chai';
 import request from 'supertest';
 import User from './user.model';
 import { default as seedUsers, clear as clearUsers } from './user.seed';
-import {init, user, admin} from '../auth/local/test.integration'
+import {user, admin} from '../auth/local/test.integration'
 
-describe('User Model', () => {
+describe.skip('User Model', () => {
 
     before( seedUsers );
 
@@ -27,16 +27,11 @@ describe('User Model', () => {
     });
 });
 
-describe.skip('User API', () => {
+describe('User API', () => {
 
   describe('should create user', () => {
-    // before( clearUsers );
 
-    before( async () => {
-      await init()
-    });
-
-    it('should authenticate student the endpoint', async function() {
+    it('should authenticate student endpoint', async () => {
       admin.request(app)
           .get('/api/user')
           .expect(200)

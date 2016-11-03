@@ -25,11 +25,15 @@ export default db.define('user', {
     field: 'email',
     validate: {
       isEmail: true,            // checks for email format (foo@bar.com)
+      isLowercase: true,
+    },
+    set: function(email){
+      this.setDataValue('email', email.toLowerCase());
     }
   },
   password: {
     type: DataTypes.STRING,
-    field: 'password'
+    field: 'password',
   },
   role: {
     type: DataTypes.STRING,
@@ -90,6 +94,7 @@ export default db.define('user', {
   },
   hooks: {
      beforeCreate: async function (user, options) {
+       user.setDataValue('email', )
        await user.setPassword(user.password);
      },
   }

@@ -10,10 +10,11 @@ export function localSetup() {
     session: false
   }, async (email, password, done) => {
     let user = await User.findOne({where: { email: email.toLowerCase() }});
-    if (!user) return done(null, {"message":"user not found"});
+    console.log("found user! ", user);
+    if (!user) return done({"message":"user not found"});
     let isAuthenticated = await user.authenticate(password);
     if (!isAuthenticated) {
-      return done(null, false, { message: 'This password is not correct.' });
+      return done({ message: 'This password is not correct.' }, false);
     } else {
       return done(null, user);
     }

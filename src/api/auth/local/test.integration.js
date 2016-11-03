@@ -8,7 +8,7 @@ let userAccount = {
   "firstName": "Rick",
   "lastName": "Sanchez",
   "role": "user",
-  "email": "Rick@Sanchez.com",
+  "email": "rick@sanchez.com",
   "password": "wubalubadubdub",
 };
 let adminAccount = {
@@ -22,18 +22,18 @@ let adminAccount = {
 let userAuth = {}, adminAuth = {};
 
 async function init(){
-
+  console.log("Creating users");
   await Promise.all([createUser(userAccount), createUser(adminAccount) ]);
+  console.log("Partying alone");
   await getAuth(userAccount).then((auth) => {
-          userAuth.cookie = auth.cookie;
-          userAuth.token = auth.token;
-          return Promise.resolve();
-        });
+    userAuth.cookie = auth.cookie;
+    userAuth.token = auth.token;
+  });
+  console.log("Super recent");
   await getAuth(adminAccount).then((auth) => {
-          adminAuth.cookie = auth.cookie;
-          adminAuth.token = auth.token;
-          return Promise.resolve();
-      });
+      adminAuth.cookie = auth.cookie;
+      adminAuth.token = auth.token;
+  });
 };
 
 async function createUser(user) {
@@ -61,18 +61,20 @@ function authRequest(auth){
 
 function getAuth(account){
     return new Promise((resolve, reject) => {
-      var agent = superagent.agent();
-        agent
+      console.log("dweebs in the dook", account);
+      let agent = superagent.agent();
+      agent
         .post('http://127.0.0.1:3001/api/auth/local')
         .type('form')
         .send(account)
         .end((err, res) => {
-            if (err) throw err;
+          console.log("wadaadadada");
+            if (err) reject(err);
             resolve({
                 token: res.body.token,
             });
         });
-    })
+    });
 }
 
 export let  user = { request: authRequest(userAuth)},

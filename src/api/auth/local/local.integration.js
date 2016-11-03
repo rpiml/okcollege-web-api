@@ -7,7 +7,7 @@ import { user, admin } from '../../auth/local/test.integration';
 describe('Authentication API Tests', () => {
 
   before(async () => {
-    return await User.sync({force: true})
+    await User.sync({force: true})
   });
 
   // create a test user
@@ -16,8 +16,8 @@ describe('Authentication API Tests', () => {
       email: 'test@example.com',
       password: 'testpassword'
     });
-    await user.set("firstName", "Malik");
-    await user.set("lastName", "Magdon-Ismail");
+    await user.set("firstName", "Bobby");
+    await user.set("lastName", "Williams");
     await user.set("role", "admin");
     await user.save();
   });
