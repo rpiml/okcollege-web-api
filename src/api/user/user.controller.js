@@ -20,7 +20,6 @@ export async function create(req: $Request, res: $Response, next: NextFunction){
   await newUser.save();
   let profile = newUser.profile();
   let token = signToken(newUser.uuid, newUser.role);
-  console.log('hit all users funct')
   res.json({ token, profile });
 
 }

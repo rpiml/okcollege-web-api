@@ -94,7 +94,6 @@ export default db.define('user', {
   },
   hooks: {
      beforeCreate: async function (user, options) {
-       user.setDataValue('email', )
        await user.setPassword(user.password);
      },
   }

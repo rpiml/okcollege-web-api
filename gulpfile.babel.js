@@ -47,7 +47,7 @@ gulp.task('test', () =>
           console.log(err.stack);
         })
         .on('end', function(err) {
-          console.log(err);
+          console.log(`Test Finished`);
         })
 );
 

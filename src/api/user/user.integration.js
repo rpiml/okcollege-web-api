@@ -6,7 +6,7 @@ import User from './user.model';
 import { default as seedUsers, clear as clearUsers } from './user.seed';
 import {user, admin} from '../auth/local/test.integration'
 
-describe.skip('User Model', () => {
+describe('User Model', () => {
 
     before( seedUsers );
 
@@ -46,15 +46,23 @@ describe('User API', () => {
     });
   });
 
-  describe.skip('should create user', () => {
+  describe('should create user', () => {
     before( clearUsers );
+
+    let requestData = {
+      "firstName": "Morty",
+      "lastName": "Smith",
+      "role": "admin",
+      "email": "flim@flam.com",
+      "password": "And that's the wayyyyyy the news goes!",
+    };
 
     let userResponse;
     before(function(done) {
       request(app)
           .post('/api/user')
           .send(requestData)
-          .expect(201)
+          .expect(200)
           .expect('Content-Type', /json/)
           .end(function(err, res) {
               if (err) {

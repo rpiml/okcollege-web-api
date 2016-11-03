@@ -37,8 +37,8 @@ describe('Authentication API Tests', () => {
       })
       .end((err, res) => {
         expect(res.body.token).to.exist;
-        expect(res.body.profile.firstName).to.equal('Malik');
-        expect(res.body.profile.lastName).to.equal('Magdon-Ismail');
+        expect(res.body.profile.firstName).to.equal('Bobby');
+        expect(res.body.profile.lastName).to.equal('Williams');
         expect(res.body.profile.role).to.equal('admin');
         done();
       });
