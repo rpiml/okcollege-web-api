@@ -8,7 +8,7 @@ import {user, admin} from '../auth/local/test.integration'
 
 describe('User Model', () => {
 
-    before( seedUsers );
+    // before( seedUsers );
 
     it('should allow creation of users',  async function() {
       let createdUser = await User.create({
@@ -23,7 +23,7 @@ describe('User Model', () => {
       expect(createdUser).to.have.property('lastName', 'Sanchez');
 
       let allUsers = await User.all()
-      expect(allUsers.filter(user => user.firstName == "Rick" && user.lastName == "Sanchez").length).to.equal(1);
+      expect(allUsers.filter(user => user.firstName == "Rick" && user.email == "rick@morty.com").length).to.equal(1);
     });
 });
 
@@ -31,7 +31,7 @@ describe('User API', () => {
 
   describe('should create user', () => {
 
-    it('should authenticate student endpoint', async () => {
+    it('should authenticate user endpoint', (done) => {
       admin.request(app)
           .get('/api/user')
           .expect(200)
@@ -40,10 +40,21 @@ describe('User API', () => {
               if (err) {
                   return done(err);
               }
-              userResponse = res.body;
               done();
           });
     });
+  });
+
+  it('should not allow unauthenticate user at endpoint', (done) => {
+    request(app)
+        .get('/api/user')
+        .expect(401)
+        .end(function(err, res) {
+            if (err) {
+                return done(err);
+            }
+            done();
+        });
   });
 
   describe('should create user', () => {
