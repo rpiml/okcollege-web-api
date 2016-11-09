@@ -9,7 +9,7 @@ addons:
 
 before_script:
   - psql -c 'create database okcollege_dev;' -U postgres
-  - wget -r https://raw.githubusercontent.com/rpiml/okcollege-dev/master/assets/ -P ./assets
+  - wget https://raw.githubusercontent.com/rpiml/okcollege-dev/master/assets/form.json -P ./assets
   - npm install -g gulp
 
 script:

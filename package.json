@@ -4,12 +4,10 @@
   "description": "Web API for OkCollege",
   "main": "app.js",
   "scripts": {
-    "build": "babel src -d lib",
-    "init": "node ./lib/db/init.js",
-    "start": "nodemon --ignore lib --exec \"npm run build && npm run serve\"",
-    "serve": "node ./lib/index.js",
+    "build": "gulp build",
+    "start": "gulp main",
     "test": "gulp test",
-    "test-watch": "nodemon --exec npm run test"
+    "test-watch": "gulp test:watch"
   },
   "repository": {
     "type": "git",
