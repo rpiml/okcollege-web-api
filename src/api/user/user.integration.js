@@ -8,22 +8,26 @@ import {user, admin} from '../auth/local/test.integration'
 
 describe('User Model', () => {
 
-    // before( seedUsers );
+    let createdUser;
 
-    it('should allow creation of users',  async function() {
-      let createdUser = await User.create({
+    before(async ()=> {
+      createdUser = await User.create({
         firstName: "Rick",
         lastName: "Sanchez",
         email: "rick@morty.com",
         role: "admin",
         password: "squelch_squanch"
       });
+    })
 
+    it('should allow creation of users',  async function() {
       expect(createdUser).to.have.property('firstName', 'Rick');
       expect(createdUser).to.have.property('lastName', 'Sanchez');
 
-      let allUsers = await User.all()
-      expect(allUsers.filter(user => user.firstName == "Rick" && user.email == "rick@morty.com").length).to.equal(1);
+      let retrievedUser = await User.findOne({where:{email:"rick@morty.com"}});
+      expect(retrievedUser).to.not.be.undefined;
+      expect(retrievedUser.firstName).to.equal("Rick");
+      expect(retrievedUser.lastName).to.equal("Sanchez");
     });
 });
 

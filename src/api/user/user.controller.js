@@ -8,13 +8,7 @@ export async function create(req: $Request, res: $Response, next: NextFunction){
  * Creates a new user
  */
 
- let newUser = await User.create({
-   "firstName": "Rick",
-   "lastName": "Sanchez",
-   "role": "user",
-   "email": "Rick@Sanchez.com",
-   "password": "wubalubadubdub",
-  });
+  let newUser = await User.create(req.body);
   newUser.provider = 'local';
   newUser.role = 'user';
   await newUser.save();
