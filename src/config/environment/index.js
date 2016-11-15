@@ -30,8 +30,12 @@ var all = {
   serverURL: process.env.DOMAIN,
 
   // Grab environment variable for postgresql host
-  PGHOST : process.env.PG_HOST || 'localhost'
+  PGHOST : process.env.PG_HOST || 'localhost',
 
+  // Secret for session
+  secrets: {
+    session: process.env.OKC_SECRET || 'okcollege-secret'
+  },
 
 };
 
