@@ -72,6 +72,12 @@ function getAuth(account){
     });
 }
 
+async function getUserAuthHandler(user: {email:string, password: string}){
+  const {cookie, token} = await getAuth(user);
+  let customAuth = {cookie, token};
+  return { request: authRequest(customAuth) };
+}
+
 export let  user = { request: authRequest(userAuth)},
             admin = { request: authRequest(adminAuth)};
-export {init};
+export {init, getUserAuthHandler};

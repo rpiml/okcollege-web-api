@@ -3,6 +3,17 @@ import db from '../../db';
 import {DataTypes} from 'sequelize';
 import crypto from 'crypto';
 
+declare class $User{
+  uuid: string,
+  salt: ?string,
+  firstName: string,
+  lastName: string,
+  email: string,
+  password: ?string,
+  role: ?string,
+  results: any
+};
+
 export default db.define('user', {
   uuid: {
     type: DataTypes.UUID,
@@ -39,6 +50,10 @@ export default db.define('user', {
     type: DataTypes.STRING,
     field: 'role'
   },
+  results: {
+    type: DataTypes.JSON,
+    field: 'results'
+  }
 }, {
   instanceMethods: {
 
