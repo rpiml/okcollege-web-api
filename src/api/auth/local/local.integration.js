@@ -30,7 +30,7 @@ describe('Authentication API Tests', () => {
   it('should allow a user to get a token', done => {
     request(app)
       .post('/api/auth/local')
-      .type('form')
+      .type('application/json')
       .send({
         email: "test@example.com",
         password: "testpassword"

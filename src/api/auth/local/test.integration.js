@@ -40,7 +40,8 @@ async function createUser(user) {
 }
 
 function wrapAuth(auth, req){
-  return req.set('Authorization', 'Bearer ' + auth.token);
+  req.header['cookie'] = `access_token=${auth.token}`;
+  return req;
 }
 
 function authRequest(auth){
