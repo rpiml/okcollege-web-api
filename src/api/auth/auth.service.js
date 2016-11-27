@@ -19,6 +19,10 @@ export function isAuthenticated() {
       if (req.query && req.query.hasOwnProperty('access_token')) {
         req.headers.authorization = 'Bearer ' + req.query.access_token;
       }
+      // allow access_token to be passed through a cookie
+      if (req.cookies && req.cookies['access_token']) {
+        req.headers.authorization = 'Bearer ' + req.cookies.access_token;
+      }
       validateJwt(req, res, next);
     })
     // Attach user to request
