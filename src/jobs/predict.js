@@ -2,5 +2,11 @@
 import { rpc } from './util';
 
 export default async function predict(survey: Object){
-  return rpc('predictor_queue', JSON.stringify(survey));
+  let prediction = await rpc('predictor-preprocessor', JSON.stringify(survey));
+  try{
+    return JSON.parse(prediction);
+  }catch(e){
+    console.log("Could not parse prediction: ", prediction);
+    return {};
+  }
 }

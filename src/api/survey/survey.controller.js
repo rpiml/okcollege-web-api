@@ -2,6 +2,7 @@
 //@flow
 
 import Survey from './survey.model';
+import predict from '../../jobs/predict';
 
 import type {$Response, $Request} from 'express';
 
@@ -17,9 +18,17 @@ export async function submit(req: $Request, res: $Response) {
   }
 
   try{
-    // TODO use user id to set user_uuid
-    await Survey.create({ content })
-    res.status(201).json({status: 'success'});
+    let dbSurvey = await Survey.create({ content })
+
+    // Predict the result of the survey
+    let prediction = await predict(content);
+
+    // TODO return id of survey for association after signup
+    res.status(201).json({
+      status: 'success',
+      prediction,
+      survey_id: dbSurvey.uuid
+    });
   }catch(err){
     res.status(500).json({status: 'error', description: err});
   }
