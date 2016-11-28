@@ -20,10 +20,9 @@ export async function submit(req: $Request, res: $Response) {
   try{
     let dbSurvey = await Survey.create({ content })
 
-    // Predict the result of the survey
+    // TODO only predict when survey is finished
     let prediction = await predict(content);
 
-    // TODO return id of survey for association after signup
     res.status(201).json({
       status: 'success',
       prediction,
