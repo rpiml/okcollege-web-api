@@ -13,4 +13,4 @@ before_script:
   - npm install -g gulp
 
 script:
-- gulp test
+- sleep 5 && gulp test
