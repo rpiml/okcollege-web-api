@@ -6,6 +6,7 @@
   "scripts": {
     "build": "gulp build",
     "start": "gulp main",
+    "init": "gulp main",
     "test": "gulp test",
     "test-watch": "gulp test:watch"
   },
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/rpiml/okcollege-web-api#readme",
   "dependencies": {
+    "amqplib": "^0.5.1",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
     "babel-polyfill": "^6.16.0",
     "body-parser": "^1.15.2",
