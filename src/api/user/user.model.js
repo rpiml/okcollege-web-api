@@ -14,7 +14,7 @@ declare class $User{
   results: any
 };
 
-export default db.define('user', {
+let User = db.define('user', {
   uuid: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV1,
@@ -113,3 +113,9 @@ export default db.define('user', {
      },
   }
 });
+
+User.sync().then(()=>{
+  console.log("User database synced");
+});
+
+export default User;
