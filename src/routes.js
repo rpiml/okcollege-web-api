@@ -10,6 +10,7 @@ import auth from './api/auth';
 export default function(app) {
   // Insert routes below
   app.get('/', (_,res) => res.send("okcollege server api"));
+  app.get('/api', (_,res) => res.send("okcollege server api"));
   app.use('/api/survey', survey);
   app.use('/api/auth', auth);
   app.use('/api/user', user);

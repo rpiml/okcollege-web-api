@@ -20,10 +20,7 @@ gulp.task('build', ['clean'], () => {
 });
 
 gulp.task('main', ['build'], (callback) => {
-  exec(`node ${paths.libDir}`, (error, stdout) => {
-    console.log(stdout);
-    return callback(error);
-  });
+  spawn('node', [paths.libDir], {stdio: 'inherit'});
 });
 
 gulp.task('watch', () => {

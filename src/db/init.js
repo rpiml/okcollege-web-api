@@ -6,7 +6,7 @@ const postgresConfig = {
   user: 'postgres',
   database: 'postgres',
   password: '',
-  host: config.database.PGHOST,
+  host: config.database.host,
   port: 5432,
   idleTimeoutMillis: 500,
 };

@@ -23,6 +23,9 @@ var all = {
   // Server port
   port: process.env.PORT || 3001,
 
+  // RabbitMQ Address
+  rabbitmqAddress: `amqp://rabbitmq:rabbitmq@${process.env['RABBITMQ_HOST'] || '127.0.0.1'}`,
+
   // Server IP
   ip: process.env.IP || '0.0.0.0',
 

@@ -13,6 +13,9 @@ let Survey = db.define('survey_response', {
     field: 'content'
   }
 });
+Survey.sync().then(()=>{
+  console.log("Survey database synced");
+});
 
 // TODO
 // Survey.belongsTo(User);

@@ -1,8 +1,13 @@
 import { connect as rabbitmqConnect } from 'amqplib/callback_api';
+import config from '../../config/environment';
 
 function createRabbitMQConnection(){
   return new Promise(resolve => {
-    rabbitmqConnect('amqp://rabbitmq:rabbitmq@127.0.0.1', (err, conn) => {
+    rabbitmqConnect(config.rabbitmqAddress, (err, conn) => {
+      if (err){
+        console.log("Failed to connect to rabbitmq!");
+        process.exit(1);
+      }
       resolve(conn);
     });
   });

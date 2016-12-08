@@ -11,10 +11,10 @@ export default {
   // Server port
   port:   process.env.OPENSHIFT_NODEJS_PORT ||
           process.env.PORT ||
-          9000,
+          3001,
   database: {
     name: 'okcollege',
-    host: process.env.PGHOST || 'localhost'
+    host: process.env.PG_HOST || 'localhost'
   },
 
   seedDB: false
