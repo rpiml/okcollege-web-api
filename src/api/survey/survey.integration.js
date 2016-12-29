@@ -39,11 +39,14 @@ describe('Survey Model', () => {
 
 describe('Survey API', () => {
 
-  describe.skip('Should enter a survey into the relevant databases on upload', () => {
+  describe('Should enter a survey into the relevant databases on upload', () => {
 
     let requestData = {
       "userid": "USERID1230948",
-      "survey": surveyExample,
+      "survey": {
+        "currentPage": "start",
+        "survey": surveyExample,
+      }
     };
 
     before( clearSurveys );
@@ -73,4 +76,66 @@ describe('Survey API', () => {
     });
 
   });
+
+
+  describe('Should update a survey response in the relevant databases on upload', () => {
+
+    let requestData = {
+      "userid": "USERID1230948",
+      "survey": {
+        "currentPage": "start",
+        "survey": surveyExample,
+      }
+    };
+
+    before( clearSurveys );
+
+    let surveyResponse;
+    before(function(done) {
+      request(app)
+      .post('/api/survey')
+      .send(requestData)
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+        surveyResponse = res.body;
+        done();
+      });
+    });
+
+    before(function(done) {
+      requestData.survey = {
+        "currentPage": "start",
+        "survey": {
+          ...surveyExample,
+          "firstPage": "done",
+          id: surveyResponse.survey_id,
+        },
+      };
+      request(app)
+      .post('/api/survey')
+      .send(requestData)
+      .expect(201)
+      .expect('Content-Type', /json/)
+      .end(function(err, res) {
+        if (err) {
+          return done(err);
+        }
+        surveyResponse = res.body;
+        done();
+      });
+    });
+
+
+    it('should have replaced the survey in the relevant database tables', async function() {
+      let survey = (await Survey.findById( surveyResponse.survey_id ));
+      expect(survey).to.not.be.empty;
+      expect(survey.content.firstPage).to.equal(requestData.survey.firstPage);
+    });
+
+  });
+
 });

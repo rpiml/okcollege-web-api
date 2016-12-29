@@ -17,8 +17,17 @@ export async function submit(req: $Request, res: $Response) {
     res.status(400).json({status:'error', description: 'bad request', body: req.body});
   }
 
+  let dbSurvey = {};
+
   try{
-    let dbSurvey = await Survey.create({ content })
+    if (content.survey.id) {
+      dbSurvey = await Survey.findById(content.survey.id)
+      dbSurvey.content = content
+      await dbSurvey.save()
+    }
+    else {
+      dbSurvey = await Survey.create({ content })
+    }
 
     // TODO only predict when survey is finished
     let prediction = await predict(content);

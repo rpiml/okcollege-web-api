@@ -12,7 +12,8 @@ let rick = {
   email: "rick@morty.com",
   role: "admin",
   password: "squelch_squanch",
-  results: {a: 1}
+  results: {a: 1},
+  surveyId: "8c1197c0-cbd3-11e6-8f00-6f77b677cdb4",
 };
 describe('User Model', () => {
 
@@ -30,9 +31,11 @@ describe('User Model', () => {
       expect(retrievedUser).to.not.be.undefined;
       expect(retrievedUser.firstName).to.equal("Rick");
       expect(retrievedUser.lastName).to.equal("Sanchez");
+      expect(retrievedUser.surveyId).to.equal("8c1197c0-cbd3-11e6-8f00-6f77b677cdb4");
     });
 
 });
+
 
 describe('User API', () => {
 
