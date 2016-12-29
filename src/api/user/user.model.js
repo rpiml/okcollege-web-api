@@ -11,6 +11,7 @@ declare class $User{
   email: string,
   password: ?string,
   role: ?string,
+  surveyId: ?string,
   results: any
 };
 
@@ -49,6 +50,10 @@ let User = db.define('user', {
   role: {
     type: DataTypes.STRING,
     field: 'role'
+  },
+  surveyId: {
+    type: DataTypes.UUID,
+    field: 'surveyId'
   },
   results: {
     type: DataTypes.JSON,
